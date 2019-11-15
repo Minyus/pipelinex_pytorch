@@ -1,0 +1,250 @@
+#pytorch_model:  # Resnet18
+#  =: torch.nn.Sequential
+#  _:
+#    - {=: torch.nn.Conv2d, in_channels: 1, out_channels: 3, kernel_size: 3}
+#    - {=: torch.nn.ReLU, _: }
+#    - {=: torchvision.models.resnet.resnet18, num_classes: 10}
+#    - {=: torch.nn.LogSoftmax, dim: -1}
+
+
+#pytorch_model:   # Resnet9
+#  =: torch.nn.Sequential
+#  _:
+#
+#    - {=: torch.nn.Conv2d, in_channels: 1, out_channels: 3, kernel_size: 3}
+#    - {=: torch.nn.ReLU, _: }
+#
+#    - =: torchvision.models.resnet._resnet
+#      arch: resnet9
+#      block: {=: torchvision.models.resnet.BasicBlock}
+#      layers: [1, 1, 1, 1]
+#      pretrained: False
+#      progress:  # None
+#      num_classes: 10
+#
+#    - {=: torch.nn.LogSoftmax, dim: -1}
+
+
+#pytorch_model:
+#  =: torch.nn.Sequential
+#  _:
+#    - {=: torch.nn.Conv2d, in_channels: 1, out_channels: 16, kernel_size: 3}  # (1, 28, 28) -> (16, 26, 26)
+#    - {=: torch.nn.ReLU, _: }
+#    - {=: torch.nn.AdaptiveMaxPool2d, output_size: 13}
+#    - {=: torch.nn.Conv2d, in_channels: 16, out_channels: 32, kernel_size: 3}  # (16, 13, 13) -> (32, 11, 11)
+#    - {=: torch.nn.ReLU, _: }
+#    - {=: torch.nn.AdaptiveMaxPool2d, output_size: 6}
+#    - {=: torch.nn.Conv2d, in_channels: 32, out_channels: 64, kernel_size: 3}  # (32, 6, 6) -> (64, 4, 4)
+#    - {=: torch.nn.ReLU, _: }
+#    - {=: torch.nn.AdaptiveMaxPool2d, output_size: 1}  # (64, 4, 4) -> (64, 1, 1)
+#    - {=: pipelinex.TensorFlatten, _: }
+#    - {=: torch.nn.Dropout, p: 0.2}
+#    - {=: torch.nn.Linear, in_features: 64, out_features: 10}
+#    - {=: torch.nn.LogSoftmax, dim: -1}
+
+
+#pytorch_model:  # https://github.com/slundberg/shap/blob/master/notebooks/deep_explainer/PyTorch%20Deep%20Explainer%20MNIST%20example.ipynb
+#  =: torch.nn.Sequential
+#  _:
+#    - {=: torch.nn.Conv2d, in_channels: 1, out_channels: 10, kernel_size: 5}
+#    - {=: torch.nn.MaxPool2d, kernel_size: 2}
+#    - {=: torch.nn.ReLU, _: }
+#    - {=: torch.nn.Conv2d, in_channels: 10, out_channels: 20, kernel_size: 5}
+#    - {=: torch.nn.Dropout, _: }
+#    - {=: torch.nn.MaxPool2d, kernel_size: 2}
+#    - {=: torch.nn.ReLU, _: }
+#    - {=: pipelinex.TensorFlatten, _: }
+#    - {=: torch.nn.Linear, in_features: 320, out_features: 50}
+#    - {=: torch.nn.ReLU, _: }
+#    - {=: torch.nn.Dropout, _: }
+#    - {=: torch.nn.Linear, in_features: 50, out_features: 10}
+#    - {=: torch.nn.LogSoftmax, dim: -1}
+
+
+#pytorch_model:  # https://github.com/slundberg/shap/blob/master/notebooks/deep_explainer/PyTorch%20Deep%20Explainer%20MNIST%20example.ipynb
+#  =: torch.nn.Sequential
+#  _:
+#    - {=: torch.nn.Conv2d, in_channels: 1, out_channels: 10, kernel_size: 5}
+#    - {=: torch.nn.MaxPool2d, kernel_size: 2}
+#    - {=: torch.nn.ReLU, _: }
+#    - {=: torch.nn.Conv2d, in_channels: 10, out_channels: 20, kernel_size: 5}
+#    - {=: torch.nn.Dropout, _: }
+#    - {=: torch.nn.MaxPool2d, kernel_size: 2}
+#    - {=: torch.nn.ReLU, _: }
+#    - {=: pipelinex.TensorFlatten, _: }
+#    - {=: torch.nn.Linear, in_features: 320, out_features: 50}
+#    - {=: torch.nn.ReLU, _: }
+#    - {=: torch.nn.Dropout, _: }
+#    - {=: torch.nn.Linear, in_features: 50, out_features: 10}
+#    - {=: torch.nn.LogSoftmax, dim: -1}
+
+
+#pytorch_model:
+#  =: torch.nn.Sequential
+#  _:
+#    - {=: TensorConv2d, in_channels: 1, out_channels: 10, kernel_size: 5}  # -> [10, 28, 28]
+#    - {=: torch.nn.ReLU, _: }
+#    - {=: TensorMaxPool2d, stride: 2, kernel_size: 3}  # -> [10, 14, 14]
+#    - {=: torch.nn.ReLU, _: }
+#    - {=: TensorConv2d, stride: 2, in_channels: 10, out_channels: 20, kernel_size: 5}  # -> [20, 7, 7]
+#    - {=: torch.nn.ReLU, _: }
+#    - {=: TensorMaxPool2d, stride: 2, kernel_size: 3}   # -> [20, 4, 4]
+#    - {=: torch.nn.ReLU, _: }
+#    - {=: pipelinex.TensorFlatten, _: }   # -> [320]
+#    - {=: torch.nn.Dropout, _: }
+#    - {=: torch.nn.Linear, in_features: 320, out_features: 10}
+#    - {=: torch.nn.LogSoftmax, dim: -1}
+
+pytorch_model:
+  =: torch.nn.Sequential
+  _:
+    - =: ModuleConcat  # -> [(5 + 5), 28, 28]
+      _:
+        - {=: TensorConv2d, in_channels: 1, out_channels: 5, kernel_size: 3}
+        - {=: TensorConv2d, in_channels: 1, out_channels: 5, kernel_size: 5}
+    - {=: torch.nn.ReLU, _: }
+    - =: ModuleConcat  # -> [(10 + 10), 14, 14]
+      _:
+        - {=: TensorMaxPool2d, stride: 2, kernel_size: 3}
+        - {=: TensorConv2d, stride: 2, in_channels: 10, out_channels: 10, kernel_size: 3}
+    - {=: torch.nn.ReLU, _: }
+    - =: ModuleConcat  # -> [(10 + 10), 7, 7]
+      _:
+        - {=: TensorConv2d, stride: 2, in_channels: 20, out_channels: 10, kernel_size: 3}
+        - {=: TensorConv2d, stride: 2, in_channels: 20, out_channels: 10, kernel_size: 5}
+    - {=: torch.nn.ReLU, _: }
+    - =: ModuleConcat  # -> [(20 + 20), 4, 4]
+      _:
+        - {=: TensorMaxPool2d, stride: 2, kernel_size: 3}
+        - {=: TensorConv2d, stride: 2, in_channels: 20, out_channels: 20, kernel_size: 3}
+    - {=: torch.nn.ReLU, _: }
+    - {=: pipelinex.TensorFlatten, _: }   # -> [640]
+    - {=: torch.nn.Dropout, _: }
+    - {=: torch.nn.Linear, in_features: 640, out_features: 10}
+    - {=: torch.nn.LogSoftmax, dim: -1}
+
+
+train_params:
+  epochs: 1  # number of epochs to train
+  time_limit: 32400  # sec
+#  model_checkpoint_params:
+#    dirname: ../checkpoint
+#    filename_prefix: "%Y-%m-%dT%H-%M-%S"
+#    offset_hours: 8
+#    n_saved: 1
+#    atomic: True
+#    require_empty: True
+#    create_dir: True
+#    save_as_state_dict: False
+#  early_stopping_params:
+#    metric: loss
+#    minimize: True
+#    patience: 1000
+  scheduler:
+    =: ignite.contrib.handlers.param_scheduler.LinearCyclicalScheduler
+#    =: ignite.contrib.handlers.param_scheduler.CosineAnnealingScheduler
+  scheduler_params:
+    param_name: lr
+    start_value: 0.001
+    end_value: 0.01
+    cycle_epochs: 2  # cycle_size: int(cycle_epochs * len(train_loader))
+    cycle_mult: 1.0
+    start_value_mult: 1.0
+    end_value_mult: 1.0
+    save_history: False
+  optimizer:
+    =: torch.optim.Adam
+  optimizer_params:
+    weight_decay: {=: operator.truediv, _: [0.00001, {=: train_params.train_data_loader_params.batch_size}]}
+  loss_fn:
+    =: torch.nn.functional.nll_loss
+  evaluation_metrics:
+    accuracy:
+      =: ignite.metrics.Accuracy
+      _:  # dummy arg
+    loss:
+      =: ignite.metrics.Loss
+      loss_fn:
+        =: torch.nn.functional.nll_loss
+  train_data_loader_params:
+    batch_size: 1000 # input batch size for training
+    num_workers: 2
+  val_data_loader_params:
+    batch_size: 1000  # input batch size for validation
+    num_workers: 2
+  evaluate_train_data: EPOCH_COMPLETED  # COMPLETED
+  evaluate_val_data: EPOCH_COMPLETED
+  progress_update: True
+  seed: 0  #
+#  train_dataset_size_limit: 1000
+#  val_dataset_size_limit: 1000
+
+test_batch_size: 1000
+
+RUN_CONFIG:
+  pipeline_name: __default__
+  only_missing: True
+  runner: SequentialRunner # None
+  tags: # None
+  node_names: # None
+  from_nodes: # None
+  to_nodes: # None
+  from_inputs: # None
+  load_versions: # None
+
+MLFLOW_LOGGING_CONFIG:
+  offset_hours: 0
+  logging_artifacts:  # None
+
+PIPELINES:
+  __default__:
+    =: pipelinex.FlexiblePipeline
+    parameters_in_inputs: False
+    module:  # None
+    decorator: pipelinex.log_time
+    nodes:
+
+      - inputs: parameters
+        func: demo.mnist_demo.generate_datasets
+        outputs:
+          - train_dataset
+          - val_dataset
+
+      - inputs: parameters
+        func:
+          =: pass_func
+          arg:
+            =: pytorch_model
+        outputs: initial_model
+
+      - inputs:
+          - initial_model
+          - train_dataset
+          - val_dataset
+        func:
+          =: pipelinex.NetworkTrain
+          train_params:
+            =: train_params
+        outputs: model
+
+      - inputs:
+          - model
+          - val_dataset  # test_dataset in actual use
+        func: demo.mnist_demo.infer
+        outputs: submission
+
+      - inputs:
+          - model
+          - train_dataset
+          - val_dataset
+          - parameters
+        func:
+          =: pipelinex.explain_model
+          train_data_loader_params: {batch_size: 100}
+          val_data_loader_params: {batch_size: 3}
+          output_transform:
+            =: torch.nn.Sequential
+            _:
+              - {=: pipelinex.TensorExp, _: }
+              - {=: pipelinex.TensorSlice, start: 0, end: 10}
+        outputs: shap_image
