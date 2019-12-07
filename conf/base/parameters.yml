@@ -235,9 +235,8 @@ PIPELINES:
           - model
           - train_dataset
           - val_dataset
-          - parameters
         func:
-          =: pipelinex.explain_model
+          =: pipelinex.ExplainModel
           train_data_loader_params: {batch_size: 100}
           val_data_loader_params: {batch_size: 3}
           output_transform:
