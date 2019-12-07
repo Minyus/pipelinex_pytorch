@@ -183,7 +183,7 @@ test_batch_size: 1000
 
 RUN_CONFIG:
   pipeline_name: __default__
-  only_missing: True
+  only_missing: False
   runner: SequentialRunner # None
   tags: # None
   node_names: # None
@@ -210,11 +210,10 @@ PIPELINES:
           - train_dataset
           - val_dataset
 
-      - inputs: parameters
+      - inputs:  # None
         func:
-          =: pass_func
-          arg:
-            =: pytorch_model
+          =: ToPipeline
+          _: {=: pytorch_model}
         outputs: initial_model
 
       - inputs:
@@ -223,8 +222,7 @@ PIPELINES:
           - val_dataset
         func:
           =: pipelinex.NetworkTrain
-          train_params:
-            =: train_params
+          train_params: {=: train_params}
         outputs: model
 
       - inputs:
