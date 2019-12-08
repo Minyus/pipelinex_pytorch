@@ -140,9 +140,8 @@ train_params:
 #    metric: loss
 #    minimize: True
 #    patience: 1000
-  scheduler:
-    =: ignite.contrib.handlers.param_scheduler.LinearCyclicalScheduler
-#    =: ignite.contrib.handlers.param_scheduler.CosineAnnealingScheduler
+  scheduler: {=: ignite.contrib.handlers.param_scheduler.LinearCyclicalScheduler}
+#  scheduler: {=: ignite.contrib.handlers.param_scheduler.CosineAnnealingScheduler}
   scheduler_params:
     param_name: lr
     start_value: 0.001
@@ -152,20 +151,15 @@ train_params:
     start_value_mult: 1.0
     end_value_mult: 1.0
     save_history: False
-  optimizer:
-    =: torch.optim.Adam
+  optimizer: {=: torch.optim.Adam}
   optimizer_params:
     weight_decay: {=: operator.truediv, _: [0.00001, {=: train_params.train_data_loader_params.batch_size}]}
-  loss_fn:
-    =: torch.nn.functional.nll_loss
+  loss_fn: {=: torch.nn.functional.nll_loss}
   evaluation_metrics:
-    accuracy:
-      =: ignite.metrics.Accuracy
-      _:  # dummy arg
+    accuracy: {=: ignite.metrics.Accuracy, _: }
     loss:
       =: ignite.metrics.Loss
-      loss_fn:
-        =: torch.nn.functional.nll_loss
+      loss_fn: {=: torch.nn.functional.nll_loss}
   train_data_loader_params:
     batch_size: 1000 # input batch size for training
     num_workers: 2
