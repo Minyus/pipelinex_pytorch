@@ -187,6 +187,7 @@ RUN_CONFIG:
   load_versions: # None
 
 MLFLOW_LOGGING_CONFIG:
+  uri: sqlite:///mlflow_sqlite.db
   offset_hours: 0
   logging_artifacts:  # None
 
