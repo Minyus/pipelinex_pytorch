@@ -158,7 +158,8 @@ venv.bak/
 .mypy_cache/
 
 # mlflow
-mlruns
+mlruns/**
+!mlruns/.gitkeep
 
 # catboost
 catboost_info
