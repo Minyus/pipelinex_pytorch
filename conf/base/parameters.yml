@@ -188,6 +188,8 @@ RUN_CONFIG:
 
 MLFLOW_LOGGING_CONFIG:
   uri: sqlite:///mlflow_sqlite.db
+  experiment_name: experiment_001
+  artifact_location: ./mlflow_artifacts/experiment_001
   offset_hours: 0
   logging_artifacts:  # None
 
