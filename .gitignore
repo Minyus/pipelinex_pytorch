@@ -170,3 +170,4 @@ catboost_info
 *.pt
 *.pth
 *-ubyte
+*.db
