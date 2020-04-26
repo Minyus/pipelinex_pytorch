@@ -148,7 +148,7 @@ train_params:
     save_history: False
   optimizer: { =: torch.optim.Adam }
   optimizer_params:
-    weight_decay: { =: operator.truediv, _: [0.00001, { =: train_params.train_data_loader_params.batch_size }] }
+    weight_decay: { =: operator.truediv, _: [0.00001, { $: train_params.train_data_loader_params.batch_size }] }
   loss_fn: { =: torch.nn.functional.nll_loss }
   evaluation_metrics:
     accuracy: { =: ignite.metrics.Accuracy, _ }
@@ -204,7 +204,7 @@ PIPELINES:
       - inputs: # None
         func:
           =: ToPipeline
-          _: { =: pytorch_model }
+          _: { $: pytorch_model }
         outputs: initial_model
 
       - inputs:
@@ -213,7 +213,7 @@ PIPELINES:
           - val_dataset
         func:
           =: pipelinex.NetworkTrain
-          train_params: { =: train_params }
+          train_params: { $: train_params }
         outputs: model
 
       - inputs:
