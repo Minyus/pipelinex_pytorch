@@ -1,19 +1,14 @@
-# Kedro DataSets:
-# https://kedro.readthedocs.io/en/latest/kedro.io.html#data-sets
-# https://kedro.readthedocs.io/en/latest/kedro.contrib.io.html
+# [reference](https://kedro.readthedocs.io/en/latest/04_user_guide/04_data_catalog.html)
+# [datasets](https://kedro.readthedocs.io/en/latest/kedro.extras.datasets.html)
 
-/:
-  type: CSVLocalDataSet
-#  type: PickleLocalDataSet
-#  type: JSONLocalDataSet
-#  type: kedro.contrib.io.yaml_local.YAMLLocalDataSet
-  cached: False
-
-data/model/model.pickle:
+model:
   type: PickleLocalDataSet
+  filepath: data/model/model.pickle
 
-data/load/submission.csv:
+submission:
   type: CSVLocalDataSet
+  filepath: data/load/submission.csv
 
-data/model/shap_image.png:
+shap_image:
   type: pipelinex.ImagesLocalDataSet
+  filepath: data/model/shap_image.png
