@@ -2,11 +2,11 @@
 # [datasets](https://kedro.readthedocs.io/en/latest/kedro.extras.datasets.html)
 
 model:
-  type: PickleLocalDataSet
+  type: pickle.PickleDataSet # shortcut for kedro.extras.datasets.pickle.PickleDataSet
   filepath: data/model/model.pickle
 
 submission:
-  type: CSVLocalDataSet
+  type: pipelinex.CSVLocalDataSet
   filepath: data/load/submission.csv
 
 shap_image:
