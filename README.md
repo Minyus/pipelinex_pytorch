@@ -16,3 +16,7 @@ $ git clone https://github.com/Minyus/pipelinex_pytorch.git
 $ cd pipelinex_pytorch
 $ python main.py
 ```
+
+## Tested environment
+
+- Python 3.6.8
