@@ -6,9 +6,13 @@ Example project to use [PipelineX](https://github.com/Minyus/pipelinex) for imag
 ## 1. Install dependencies
 
 ```bash
-$ pip3 install pipelinex torch torchvision pytorch-ignite kedro mlflow shap
+$ pip install pipelinex torch torchvision pytorch-ignite kedro mlflow shap
 ```
 
-## 2. Clone this repository
+## 2. Clone this repository and run `main.py`
 
-## 3. Run `main.py`
+```bash
+$ git clone https://github.com/Minyus/pipelinex_pytorch.git
+$ cd pipelinex_pytorch
+$ python main.py
+```
