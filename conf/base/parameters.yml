@@ -121,7 +121,7 @@ pytorch_model:
 train_params:
   epochs: 1 # number of epochs to train
   time_limit: 32400 # sec
-  model_checkpoint: { =: pipelinex.ops.ignite.handlers.flexible_checkpoint.FlexibleModelCheckpoint }
+  model_checkpoint: { =: pipelinex.extras.ops.ignite.handlers.flexible_checkpoint.FlexibleModelCheckpoint }
   model_checkpoint_params:
     dirname: ../checkpoint
     filename_prefix: "%Y-%m-%dT%H-%M-%S"

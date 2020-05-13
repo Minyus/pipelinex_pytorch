@@ -11,4 +11,6 @@ submission:
 
 shap_image:
   type: pipelinex.ImagesLocalDataSet
-  filepath: data/model/shap_image.png
+  path: data/model/shap_image
+  save_args:
+    suffix: .png
