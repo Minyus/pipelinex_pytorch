@@ -3,7 +3,7 @@
 An example project using [PipelineX](https://github.com/Minyus/pipelinex), Kedro, PyTorch, Ignite, and SHAP for image classification
 
 <p align="center">
-<img src="img/kedro_pipeline.png">
+<img src="img/kedro_pipeline.PNG">
 Pipeline visualized by Kedro-viz
 </p>
 
