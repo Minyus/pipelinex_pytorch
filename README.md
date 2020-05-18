@@ -1,13 +1,19 @@
 # PipelineX PyTorch
 
-Example project to use [PipelineX](https://github.com/Minyus/pipelinex) for image classification using PyTorch
+An example project using [PipelineX](https://github.com/Minyus/pipelinex), Kedro, PyTorch, Ignite, and SHAP for image classification
 
+<p align="center">
+<img src="img/kedro_pipeline.png">
+Pipeline visualized by Kedro-viz
+</p>
 
 ## 1. Install dependencies
 
 ```bash
-$ pip install pipelinex torch torchvision pytorch-ignite kedro mlflow shap
+$ pip install pipelinex torch torchvision pytorch-ignite kedro shap mlflow kedro-viz
 ```
+
+Note: `mlflow` and `kedro-viz` are optional.
 
 ## 2. Clone this repository and run `main.py`
 
