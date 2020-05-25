@@ -161,12 +161,12 @@ train_params:
   val_data_loader_params:
     batch_size: 1000 # input batch size for validation
     num_workers: 2
-  evaluate_train_data: EPOCH_COMPLETED # COMPLETED
-  evaluate_val_data: EPOCH_COMPLETED
+  # evaluate_train_data: EPOCH_COMPLETED # Temporarily commented out to avoid AttributeError
+  # evaluate_val_data: EPOCH_COMPLETED # Temporarily commented out to avoid AttributeError
   progress_update: True
   seed: 0 #
-#  train_dataset_size_limit: 1000
-#  val_dataset_size_limit: 1000
+  train_dataset_size_limit: 10000 # Only for prototyping; Remove to use the whole data
+  val_dataset_size_limit: # None
 
 test_batch_size: 1000
 
@@ -181,17 +181,9 @@ RUN_CONFIG:
   from_inputs: # None
   load_versions: # None
 
-MLFLOW_LOGGING_CONFIG:
-  uri: sqlite:///mlruns/sqlite.db
-  experiment_name: experiment_001
-  artifact_location: ./mlruns/experiment_001
-  offset_hours: 0
-  logging_artifacts: # None
-
 PIPELINES:
   __default__:
     =: pipelinex.FlexiblePipeline
-    parameters_in_inputs: False
     module: # None
     decorator: pipelinex.log_time
     nodes:
@@ -230,3 +222,23 @@ PIPELINES:
               - { =: pipelinex.TensorExp, _ }
               - { =: pipelinex.TensorSlice, start: 0, end: 10 }
         outputs: shap_image
+
+HOOKS:
+  - =: pipelinex.MLflowBasicLoggerHook # Configure and log duration time for the pipeline 
+    enable_mlflow: True # Enable configuring and logging to MLflow
+    uri: sqlite:///mlruns/sqlite.db
+    experiment_name: experiment_001
+    artifact_location: ./mlruns/experiment_001
+    offset_hours: 0 # Specify the offset hour (e.g. 0 for UTC/GMT +00:00) to log in MLflow
+
+  - =: pipelinex.MLflowArtifactsLoggerHook # Log artifacts of specified file paths and dataset names
+    enable_mlflow: True # Enable logging to MLflow
+    filepaths_before_pipeline_run: # Optionally specify the file paths to log before pipeline is run
+      - conf/base/parameters.yml
+    datasets_after_node_run: # Optionally specify the dataset names to log after the node is run
+      - model
+    filepaths_after_pipeline_run: # None  # Optionally specify the file paths to log after pipeline is run
+
+#
+# Command to run mlflow server:
+# $ mlflow server --host 0.0.0.0 --backend-store-uri sqlite:///mlruns/sqlite.db --default-artifact-root ./mlruns/experiment_001
