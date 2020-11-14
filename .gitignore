@@ -170,6 +170,7 @@ catboost_info
 *.pt
 *.pth
 *-ubyte
+*.gz
 *.db
 
 # VS Code
